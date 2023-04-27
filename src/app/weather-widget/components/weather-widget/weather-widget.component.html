@@ -1,0 +1,46 @@
+<div class="container" *ngIf="weathers$ | async as weather">
+  <div class="content" *ngIf="weather[index]">
+    <div class="city-card">
+      <div class="city-info">
+        <div class="city-header">{{ weather[index].name }}</div>
+        <div class="temperature">
+          {{ (weather[index].main.temp - 273.15).toFixed(1) }} &#8451;
+        </div>
+        <div class="icon">
+          <img
+            [src]="
+              'http://openweathermap.org/img/wn/' +
+              weather[index].weather[0].icon +
+              '.png'
+            "
+            alt="Weather Icon"
+          />
+        </div>
+        <div class="description">
+          {{ weather[index].weather[0].description }}
+        </div>
+        <div class="humidity">
+          Humidity: {{ weather[index].main.humidity }}%
+        </div>
+        <div class="feels-like">
+          Feels like:
+          {{ (weather[index].main.feels_like - 273.15).toFixed(1) }} &#8451;
+        </div>
+        <div class="dew-point">
+          Dew Point:
+          {{
+            calculateDewPoint(
+              weather[index].main.temp,
+              weather[index].main.humidity
+            )
+          }}
+          &#8451;
+        </div>
+        <div class="visibility">
+          Visibility: {{ (weather[index].visibility / 1000).toFixed(1) }} km
+        </div>
+        <div class="wind">Wind: {{ weather[index].wind.speed }} m/s</div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,45 @@
+<div class="gear-container" *ngIf="cities$ | async as cities">
+  <button class="gear-button" (click)="showAllCities = !showAllCities">
+    ⚙️
+  </button>
+  <div
+    class="all-cities-container"
+    *ngIf="showAllCities"
+    cdkDropList
+    [cdkDropListData]="cities"
+    (cdkDropListDropped)="onDrop($event)"
+  >
+    <div *ngFor="let city of cities; let i = index" class="city-row" cdkDrag>
+      <div class="city-name">{{ city.name }}</div>
+      <button class="delete-button" (click)="onDeleteCity(city.id)">♻️</button>
+    </div>
+  </div>
+</div>
+<div class="form-container">
+  <form #addForm="ngForm" class="form" (ngSubmit)="onAddCity(addForm.value)">
+    <label>
+      <input
+        type="text"
+        placeholder="City name"
+        name="cityName"
+        ngModel
+        required
+        autofocus
+      />
+    </label>
+    <button type="submit">Add</button>
+  </form>
+</div>
+<div
+  class="container"
+  *ngIf="cities$ | async as cities"
+  (click)="showAllCities = false"
+>
+  <div
+    class="weather-widgets-container"
+    *ngFor="let city of cities; let i = index"
+    (click)="showAllCities = false"
+  >
+    <weather-widget [city]="city" [index]="i"></weather-widget>
+  </div>
+</div>
